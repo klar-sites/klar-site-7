@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design System · Minimal Blog</title>
+  <meta name="description" content="Live token-driven design system and Klar component catalog for a modern minimalist blog." />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    /* Documentation chrome only — not part of the design system. Every selector is prefixed .ds-. */
+    .ds-page {
+      padding-block: var(--space-12);
+    }
+
+    .ds-block {
+      border-bottom: 1px solid var(--border);
+      padding-block: var(--space-12);
+    }
+
+    .ds-block:first-child {
+      padding-top: 0;
+    }
+
+    .ds-note {
+      max-width: var(--content-narrow);
+      color: var(--muted-foreground);
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
+      margin-top: var(--space-3);
+    }
+
+    .ds-subhead {
+      margin: var(--space-8) 0 var(--space-4);
+      font-size: var(--text-xl);
+    }
+
+    .ds-specimens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+      margin-top: var(--space-4);
+    }
+
+    .ds-specimens--grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      align-items: stretch;
+    }
+
+    .ds-specimens--stack {
+      display: grid;
+      gap: var(--space-8);
+      align-items: stretch;
+    }
+
+    .ds-sections {
+      padding-top: var(--space-4);
+    }
+
+    .ds-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .ds-swatch {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ds-swatch__color {
+      min-height: 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ds-swatch__body {
+      padding: var(--space-4);
+    }
+
+    .ds-swatch__name {
+      display: block;
+      color: var(--foreground);
+      font-weight: var(--font-semibold);
+    }
+
+    .ds-swatch__token {
+      display: block;
+      color: var(--muted-foreground);
+      font-size: var(--text-sm);
+      margin-top: var(--space-1);
+    }
+
+    .ds-type-row {
+      display: grid;
+      gap: var(--space-4);
+      border-bottom: 1px solid var(--border);
+      padding-block: var(--space-4);
+    }
+
+    .ds-type-row:last-child {
+      border-bottom: 0;
+    }
+
+    .ds-type-meta {
+      color: var(--muted-foreground);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+    }
+
+    .ds-scale {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .ds-scale__row {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .ds-scale__bar {
+      min-height: var(--space-6);
+      border-radius: var(--radius-full);
+      background: var(--primary);
+    }
+
+    .ds-radius-row,
+    .ds-shadow-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .ds-radius-sample,
+    .ds-shadow-sample {
+      min-height: 6rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: var(--space-4);
+    }
+
+    .ds-mini-card {
+      min-height: 5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      padding: var(--space-4);
+    }
+
+    .ds-showcase-hero {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top left, color-mix(in srgb, var(--primary) 20%, transparent), transparent 28%),
+        linear-gradient(180deg, var(--background), var(--muted));
+      padding-block: var(--space-16);
+    }
+
+    .ds-showcase-hero__inner {
+      width: min(100% - var(--space-8), var(--content-width));
+      margin-inline: auto;
+      display: grid;
+      gap: var(--space-8);
+    }
+
+    .ds-showcase-hero__badge {
+      width: fit-content;
+    }
+
+    .ds-showcase-hero__title {
+      max-width: 12ch;
+    }
+
+    .ds-showcase-hero__lead {
+      max-width: var(--content-narrow);
+      color: var(--muted-foreground);
+      font-size: var(--text-xl);
+      line-height: var(--leading-relaxed);
+    }
+
+    .ds-showcase-hero__actions,
+    .ds-showcase-hero__stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+    }
+
+    .ds-showcase-hero__stat {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      padding: var(--space-4);
+      min-width: 10rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (min-width: 768px) {
+      .ds-type-row {
+        grid-template-columns: 12rem 1fr;
+        align-items: baseline;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top" aria-label="Minimal Blog design system home">
+        <span class="brand__mark" aria-hidden="true">M</span>
+        <span>Minimal Blog DS</span>
+      </a>
+      <nav class="nav" aria-label="Design system navigation">
+        <a class="nav-link" href="#colors">Colors</a>
+        <a class="nav-link" href="#typography">Typography</a>
+        <a class="nav-link" href="#components">Components</a>
+        <a class="nav-link" href="#sections">Sections</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme">☾</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="ds-showcase-hero" id="top">
+    <div class="ds-showcase-hero__inner">
+      <span class="badge ds-showcase-hero__badge">Token-driven blog system</span>
+      <h1 class="ds-showcase-hero__title">A fast, calm writing experience.</h1>
+      <p class="ds-showcase-hero__lead">
+        A minimal, responsive design system for publishing thoughtful articles with elegant typography,
+        accessible components, dark mode, and reusable page sections.
+      </p>
+      <div class="ds-showcase-hero__actions">
+        <a class="btn btn-primary btn-lg" href="#sections">Browse sections</a>
+        <a class="btn btn-outline btn-lg" href="#components">View components</a>
+      </div>
+      <div class="ds-showcase-hero__stats" aria-label="Design system stats">
+        <div class="ds-showcase-hero__stat">
+          <strong class="block text-2xl">3</strong>
+          <span class="text-sm text-muted-foreground">Production pages</span>
+        </div>
+        <div class="ds-showcase-hero__stat">
+          <strong class="block text-2xl">Light + dark</strong>
+          <span class="text-sm text-muted-foreground">Semantic color tokens</span>
+        </div>
+        <div class="ds-showcase-hero__stat">
+          <strong class="block text-2xl">No build</strong>
+          <span class="text-sm text-muted-foreground">Plain HTML, CSS, JS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container ds-page" id="main">
+    <section class="ds-block" id="colors">
+      <h2>Foundations: Colors</h2>
+      <p class="ds-note">Semantic tokens drive every surface, state, and theme. The same classes automatically adapt under the <code>.dark</code> token map.</p>
+      <div class="ds-swatches">
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-background"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Background</span><span class="ds-swatch__token">--background · bg-background</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-foreground"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Foreground</span><span class="ds-swatch__token">--foreground · bg-foreground</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-primary"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Primary</span><span class="ds-swatch__token">--primary · bg-primary</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-secondary"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Secondary</span><span class="ds-swatch__token">--secondary · bg-secondary</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-muted"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Muted</span><span class="ds-swatch__token">--muted · bg-muted</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-accent"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Accent</span><span class="ds-swatch__token">--accent · bg-accent</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-card"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Card</span><span class="ds-swatch__token">--card · bg-card</span></div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__color bg-destructive"></div>
+          <div class="ds-swatch__body"><span class="ds-swatch__name">Destructive</span><span class="ds-swatch__token">--destructive · bg-destructive</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="typography">
+      <h2>Foundations: Typography</h2>
+      <p class="ds-note">The type scale is intentionally compact: crisp interface text, generous long-form body copy, and expressive editorial display headlines.</p>
+      <div class="mt-6">
+        <div class="ds-type-row">
+          <div class="ds-type-meta">Display · text-5xl</div>
+          <div class="text-5xl font-bold leading-tight tracking-tight">Future-friendly writing</div>
+        </div>
+        <div class="ds-type-row">
+          <div class="ds-type-meta">Heading · text-4xl</div>
+          <div class="text-4xl font-bold leading-tight tracking-tight">Minimal interfaces, maximum clarity</div>
+        </div>
+        <div class="ds-type-row">
+          <div class="ds-type-meta">Heading · text-3xl</div>
+          <div class="text-3xl font-bold leading-snug">Designing for focused reading</div>
+        </div>
+        <div class="ds-type-row">
+          <div class="ds-type-meta">Lead · text-xl</div>
+          <div class="text-xl leading-relaxed text-muted-foreground">A more intentional rhythm helps readers move through complex ideas without friction.</div>
+        </div>
+        <div class="ds-type-row">
+          <div class="ds-type-meta">Body · text-base</div>
+          <div class="text-base leading-normal">Interface copy stays simple, practical, and accessible across every breakpoint.</div>
+        </div>
+        <div class="ds-type-row">
+          <div class="ds-type-meta">Meta · text-xs</div>
+          <div class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Published in Design Systems</div>
+        </div>
+      </div>
+
+      <h3 class="ds-subhead">Rich text sample</h3>
+      <article class="prose container-narrow">
+        <h1>How a slower interface can feel faster</h1>
+        <p>
+          Fast websites are not only measured in milliseconds. They are also measured in how quickly a reader understands where they are,
+          what matters, and what to do next.
+        </p>
+        <h2>Start with hierarchy</h2>
+        <p>
+          Clear hierarchy lets people scan before they commit. A focused content column, readable contrast, and predictable spacing make the
+          page feel composed before the first paragraph is read.
+        </p>
+        <h3>Practical defaults</h3>
+        <ul>
+          <li>Use a narrow line length for long-form content.</li>
+          <li>Keep supporting metadata visually quiet.</li>
+          <li>Reserve strong color for navigation, actions, and key emphasis.</li>
+        </ul>
+        <blockquote>
+          Good typography does not decorate the content; it removes the work required to enter it.
+        </blockquote>
+        <p>
+          Inline code such as <code>prefers-color-scheme</code> should remain legible, and links should look like
+          <a href="#components">real destinations</a>.
+        </p>
+      </article>
+    </section>
+
+    <section class="ds-block" id="spacing">
+      <h2>Foundations: Spacing</h2>
+      <p class="ds-note">A small spacing scale keeps composition predictable while supporting cards, sections, controls, and article rhythm.</p>
+      <div class="ds-scale">
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-1</span><div class="ds-scale__bar p-0"></div></div>
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-2</span><div class="ds-scale__bar px-3"></div></div>
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-3</span><div class="ds-scale__bar px-4"></div></div>
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-4</span><div class="ds-scale__bar px-6"></div></div>
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-6</span><div class="ds-scale__bar px-8"></div></div>
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-8</span><div class="ds-scale__bar p-8"></div></div>
+        <div class="ds-scale__row"><span class="text-sm font-semibold">space-12</span><div class="ds-scale__bar p-12"></div></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="borders">
+      <h2>Foundations: Borders, Radius, Shadows</h2>
+      <p class="ds-note">Soft borders and lifted cards create definition without heavy decoration.</p>
+      <h3 class="ds-subhead">Radius</h3>
+      <div class="ds-radius-row">
+        <div class="ds-radius-sample rounded-none">None</div>
+        <div class="ds-radius-sample rounded-sm">Small</div>
+        <div class="ds-radius-sample rounded-md">Medium</div>
+        <div class="ds-radius-sample rounded-lg">Large</div>
+        <div class="ds-radius-sample rounded-xl">XL</div>
+        <div class="ds-radius-sample rounded-full">Full</div>
+      </div>
+      <h3 class="ds-subhead">Shadows</h3>
+      <div class="ds-shadow-row">
+        <div class="ds-shadow-sample shadow-none">None</div>
+        <div class="ds-shadow-sample shadow-sm">Small</div>
+        <div class="ds-shadow-sample shadow-md">Medium</div>
+        <div class="ds-shadow-sample shadow-lg">Large</div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="components">
+      <h2>Component Library</h2>
+      <p class="ds-note">Semantic components provide structure and behavior; utilities provide runtime-editable variation.</p>
+
+      <h3 class="ds-subhead">Buttons</h3>
+      <div class="ds-specimens" data-klar-ds-elements="buttons" data-klar-ds-label="Buttons">
+        <a class="btn btn-primary" href="#" data-klar-ds-label="Primary link">Read article</a>
+        <button class="btn btn-primary" type="button" data-klar-ds-label="Primary button">Save changes</button>
+        <a class="btn btn-secondary" href="#" data-klar-ds-label="Secondary link">Browse posts</a>
+        <button class="btn btn-secondary" type="button" data-klar-ds-label="Secondary button">Preview</button>
+        <a class="btn btn-outline" href="#" data-klar-ds-label="Outline link">Contact us</a>
+        <button class="btn btn-outline" type="button" data-klar-ds-label="Outline button">Cancel</button>
+        <a class="btn btn-ghost" href="#" data-klar-ds-label="Ghost link">Skip</a>
+        <button class="btn btn-ghost" type="button" data-klar-ds-label="Ghost button">Dismiss</button>
+        <a class="btn btn-primary btn-lg" href="#" data-klar-ds-label="Large primary link">Start reading</a>
+        <button class="btn btn-primary btn-lg" type="button" data-klar-ds-label="Large primary button">Publish</button>
+      </div>
+
+      <h3 class="ds-subhead">Navigation links</h3>
+      <div class="ds-specimens" data-klar-ds-elements="navigation" data-klar-ds-label="Navigation">
+        <a class="nav-link" href="#" data-klar-ds-label="Navigation link">Home</a>
+        <a class="nav-link" href="#" aria-current="page" data-klar-ds-label="Current navigation link">Journal</a>
+        <a class="cta-link" href="#" data-klar-ds-label="CTA link">Read more →</a>
+        <a class="footer-link" href="#" data-klar-ds-label="Footer link">Privacy</a>
+      </div>
+
+      <h3 class="ds-subhead">Badges and tags</h3>
+      <div class="ds-specimens" data-klar-ds-elements="badges" data-klar-ds-label="Badges and tags">
+        <span class="badge" data-klar-ds-label="Badge">Featured</span>
+        <span class="tag" data-klar-ds-label="Tag">Design</span>
+      </div>
+
+      <h3 class="ds-subhead">Cards</h3>
+      <div class="ds-specimens ds-specimens--grid" data-klar-ds-elements="cards" data-klar-ds-label="Cards">
+        <article class="card" data-klar-ds-label="Basic card">
+          <div class="card__header">
+            <span class="badge">Insight</span>
+            <h3>Design that gets out of the way</h3>
+          </div>
+          <div class="card__body">
+            <p class="text-muted-foreground">A quiet card pattern for summaries, notes, and featured resources.</p>
+          </div>
+          <div class="card__footer">
+            <a class="cta-link" href="#">Continue →</a>
+          </div>
+        </article>
+        <article class="post-card" data-klar-ds-label="Post card">
+          <div class="post-card__media" aria-hidden="true">
+            <svg viewBox="0 0 800 500" role="img" aria-label="Abstract editorial illustration">
+              <rect width="800" height="500" fill="currentColor" opacity=".05"></rect>
+              <circle cx="620" cy="120" r="140" fill="currentColor" opacity=".12"></circle>
+              <path d="M80 360 C210 230 330 420 470 260 S690 260 740 160" stroke="currentColor" stroke-width="28" fill="none" opacity=".25"></path>
+            </svg>
+          </div>
+          <div class="post-card__body">
+            <div class="post-meta"><span>Feb 12, 2026</span><span>·</span><span>6 min read</span></div>
+            <h3><a href="#">A practical guide to editorial systems</a></h3>
+            <p class="text-muted-foreground">Reusable patterns make publishing faster without flattening the author's voice.</p>
+          </div>
+        </article>
+        <div class="info-card" data-klar-ds-label="Info card">
+          <span class="tag">Contact</span>
+          <h3>Editorial desk</h3>
+          <p class="text-muted-foreground">hello@minimalblog.example</p>
+        </div>
+      </div>
+
+      <h3 class="ds-subhead">Forms</h3>
+      <div class="ds-specimens ds-specimens--grid" data-klar-ds-elements="forms" data-klar-ds-label="Forms">
+        <form class="card form" data-klar-ds-label="Contact form">
+          <div class="card__body">
+            <div class="field">
+              <label class="label" for="ds-name">Name</label>
+              <input class="input" id="ds-name" name="name" type="text" placeholder="Ada Lovelace" />
+              <span class="field-error" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label class="label" for="ds-message">Message</label>
+              <textarea class="textarea" id="ds-message" name="message" placeholder="Tell us what you are writing about"></textarea>
+              <span class="field-error" aria-live="polite"></span>
+            </div>
+            <button class="btn btn-primary" type="button">Send message</button>
+          </div>
+        </form>
+      </div>
+
+      <h3 class="ds-subhead">Container</h3>
+      <div class="ds-specimens ds-specimens--stack" data-klar-ds-elements="containers" data-klar-ds-label="Container">
+        <div class="container ds-mini-card" data-klar-ds-label="Default">A balanced content container for standard sections.</div>
+        <div class="container-narrow ds-mini-card" data-klar-ds-label="Narrow">A narrow measure for articles, forms, and focused copy.</div>
+        <div class="container-wide ds-mini-card" data-klar-ds-label="Wide">A wide wrapper for dense grids and showcase layouts.</div>
+      </div>
+
+      <h3 class="ds-subhead">Grid</h3>
+      <div class="ds-specimens ds-specimens--stack" data-klar-ds-elements="grids" data-klar-ds-label="Grid">
+        <div class="grid grid-cols-1" data-klar-ds-label="1 column">
+          <div class="ds-mini-card">One calm column</div>
+        </div>
+        <div class="grid grid-cols-2" data-klar-ds-label="2 columns">
+          <div class="ds-mini-card">Editorial planning</div>
+          <div class="ds-mini-card">Reader experience</div>
+        </div>
+        <div class="grid grid-cols-3" data-klar-ds-label="3 columns">
+          <div class="ds-mini-card">Design</div>
+          <div class="ds-mini-card">Systems</div>
+          <div class="ds-mini-card">Performance</div>
+        </div>
+      </div>
+
+      <h3 class="ds-subhead">Container and Grid</h3>
+      <div class="ds-specimens ds-specimens--stack" data-klar-ds-elements="containers-and-grids" data-klar-ds-label="Container and Grid">
+        <div class="container grid grid-cols-1" data-klar-ds-label="Default · 1 col"><div class="ds-mini-card">Feature story</div></div>
+        <div class="container grid grid-cols-2" data-klar-ds-label="Default · 2 cols"><div class="ds-mini-card">Latest</div><div class="ds-mini-card">Popular</div></div>
+        <div class="container grid grid-cols-3" data-klar-ds-label="Default · 3 cols"><div class="ds-mini-card">Design</div><div class="ds-mini-card">Writing</div><div class="ds-mini-card">Tools</div></div>
+        <div class="container-narrow grid grid-cols-1" data-klar-ds-label="Narrow · 1 col"><div class="ds-mini-card">Article body</div></div>
+        <div class="container-narrow grid grid-cols-2" data-klar-ds-label="Narrow · 2 cols"><div class="ds-mini-card">Idea</div><div class="ds-mini-card">Draft</div></div>
+        <div class="container-narrow grid grid-cols-3" data-klar-ds-label="Narrow · 3 cols"><div class="ds-mini-card">One</div><div class="ds-mini-card">Two</div><div class="ds-mini-card">Three</div></div>
+        <div class="container-wide grid grid-cols-1" data-klar-ds-label="Wide · 1 col"><div class="ds-mini-card">Showcase</div></div>
+        <div class="container-wide grid grid-cols-2" data-klar-ds-label="Wide · 2 cols"><div class="ds-mini-card">Case study</div><div class="ds-mini-card">Interview</div></div>
+        <div class="container-wide grid grid-cols-3" data-klar-ds-label="Wide · 3 cols"><div class="ds-mini-card">Research</div><div class="ds-mini-card">Notes</div><div class="ds-mini-card">Guides</div></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="sections">
+      <h2>Sections</h2>
+      <p class="ds-note">Template-ready page patterns available to Klar authors. Each direct child is self-contained and uses real blog content.</p>
+
+      <div class="ds-specimens ds-specimens--stack ds-sections" data-klar-ds-elements="Sections" data-klar-ds-label="Page sections">
+        <header class="site-header" data-klar-ds-label="Header">
+          <div class="container site-header__inner">
+            <a class="brand" href="index.html" aria-label="Minimal home">
+              <span class="brand__mark" aria-hidden="true">M</span>
+              <span>Minimal</span>
+            </a>
+            <nav class="nav" aria-label="Primary navigation">
+              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="post.html">Featured Post</a>
+              <a class="nav-link" href="contact.html">Contact</a>
+            </nav>
+            <div class="header-actions">
+              <button class="theme-toggle" type="button" aria-label="Toggle theme">☾</button>
+            </div>
+          </div>
+        </header>
+
+        <section class="section" data-klar-ds-label="Hero">
+          <div class="container hero">
+            <div class="hero__content">
+              <span class="badge">Independent ideas for modern teams</span>
+              <h1 class="hero__title">Make better digital work by thinking more clearly.</h1>
+              <p class="hero__lead">Minimal publishes practical essays on design systems, writing workflows, performance, and sustainable product craft.</p>
+              <div class="hero__actions">
+                <a class="btn btn-primary btn-lg" href="post.html">Read the featured essay</a>
+                <a class="btn btn-outline btn-lg" href="contact.html">Pitch a story</a>
+              </div>
+            </div>
+            <article class="hero-card">
+              <div class="hero-card__media" aria-hidden="true">
+                <svg viewBox="0 0 800 500">
+                  <rect width="800" height="500" fill="currentColor" opacity=".05"></rect>
+                  <circle cx="220" cy="180" r="150" fill="currentColor" opacity=".16"></circle>
+                  <path d="M120 340h560M120 280h380M120 220h520M120 160h300" stroke="currentColor" stroke-width="20" opacity=".22"></path>
+                </svg>
+              </div>
+              <div class="hero-card__body">
+                <div class="post-meta"><span>Featured</span><span>·</span><span>8 min read</span></div>
+                <h3>Design systems that respect editorial rhythm</h3>
+                <p class="text-muted-foreground">How reusable patterns can support distinctive long-form storytelling.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section bg-muted" data-klar-ds-label="Featured post">
+          <div class="container">
+            <div class="section-heading">
+              <span class="section-heading__eyebrow">Featured essay</span>
+              <h2>Systems for thoughtful publishing</h2>
+              <p class="section-heading__lead">A practical look at how writers and designers can share a single visual language.</p>
+            </div>
+            <article class="featured-post">
+              <div class="featured-post__media" aria-hidden="true">
+                <svg viewBox="0 0 900 560">
+                  <rect width="900" height="560" fill="currentColor" opacity=".05"></rect>
+                  <circle cx="700" cy="130" r="170" fill="currentColor" opacity=".12"></circle>
+                  <path d="M100 380 C260 180 430 480 610 240 S810 250 850 150" stroke="currentColor" stroke-width="34" fill="none" opacity=".28"></path>
+                </svg>
+              </div>
+              <div class="featured-post__body">
+                <span class="badge">Design systems</span>
+                <h3><a href="post.html">Design systems that respect editorial rhythm</a></h3>
+                <p class="text-muted-foreground">A design system should make publishing feel faster without forcing every article into the same shape.</p>
+                <div class="post-meta"><span>By Mara Ellis</span><span>·</span><span>Feb 18, 2026</span><span>·</span><span>8 min read</span></div>
+                <a class="cta-link" href="post.html">Read the essay →</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" data-klar-ds-label="Post grid">
+          <div class="container">
+            <div class="section-heading">
+              <span class="section-heading__eyebrow">Latest posts</span>
+              <h2>Fresh thinking for makers and editors</h2>
+              <p class="section-heading__lead">Short, useful essays on the systems behind high-quality digital publishing.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3">
+              <article class="post-card">
+                <div class="post-card__media" aria-hidden="true"><svg viewBox="0 0 800 500"><rect width="800" height="500" fill="currentColor" opacity=".06"></rect><circle cx="180" cy="140" r="120" fill="currentColor" opacity=".14"></circle></svg></div>
+                <div class="post-card__body">
+                  <div class="post-meta"><span>Workflow</span><span>·</span><span>5 min read</span></div>
+                  <h3><a href="post.html">A simpler checklist for publishing day</a></h3>
+                  <p class="text-muted-foreground">The small rituals that keep teams aligned before an article goes live.</p>
+                </div>
+              </article>
+              <article class="post-card">
+                <div class="post-card__media" aria-hidden="true"><svg viewBox="0 0 800 500"><rect width="800" height="500" fill="currentColor" opacity=".06"></rect><path d="M100 330h600M100 250h480M100 170h560" stroke="currentColor" stroke-width="26" opacity=".2"></path></svg></div>
+                <div class="post-card__body">
+                  <div class="post-meta"><span>Performance</span><span>·</span><span>4 min read</span></div>
+                  <h3><a href="post.html">Fast pages begin with fewer decisions</a></h3>
+                  <p class="text-muted-foreground">Why constrained design systems often produce faster, more resilient websites.</p>
+                </div>
+              </article>
+              <article class="post-card">
+                <div class="post-card__media" aria-hidden="true"><svg viewBox="0 0 800 500"><rect width="800" height="500" fill="currentColor" opacity=".06"></rect><circle cx="600" cy="250" r="170" fill="currentColor" opacity=".13"></circle></svg></div>
+                <div class="post-card__body">
+                  <div class="post-meta"><span>Typography</span><span>·</span><span>7 min read</span></div>
+                  <h3><a href="post.html">The quiet power of a readable measure</a></h3>
+                  <p class="text-muted-foreground">Line length, rhythm, and contrast choices that make long reads feel lighter.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" data-klar-ds-label="Text content">
+          <article class="container-narrow prose">
+            <h1>Design systems that respect editorial rhythm</h1>
+            <p>Reusable design should make publishing easier without sanding away the details that make a story memorable.</p>
+            <h2>Begin with the reader</h2>
+            <p>A good article template knows when to be invisible. It creates a consistent measure, clear hierarchy, and enough space for ideas to breathe.</p>
+            <ul>
+              <li>Keep metadata useful but visually secondary.</li>
+              <li>Use strong contrast for body copy and interactive states.</li>
+              <li>Let images and blockquotes interrupt the rhythm intentionally.</li>
+            </ul>
+            <blockquote>Templates are most valuable when they protect quality while leaving room for judgment.</blockquote>
+            <p>That is why a class like <code>prose</code> belongs in the design system: authors need dependable long-form defaults they can apply anywhere.</p>
+          </article>
+        </section>
+
+        <section class="section" data-klar-ds-label="Newsletter CTA">
+          <div class="container cta">
+            <div class="grid md:grid-cols-2 items-center gap-8">
+              <div class="stack">
+                <span class="badge">Monthly briefing</span>
+                <h2>Get the best essays in one calm email.</h2>
+                <p>One thoughtful digest with new posts, reading notes, and practical resources for digital teams.</p>
+              </div>
+              <form class="form" action="#" method="post">
+                <div class="field">
+                  <label class="label text-background" for="section-email">Email address</label>
+                  <input class="input" id="section-email" name="email" type="email" placeholder="reader@example.com" />
+                </div>
+                <button class="btn btn-primary" type="submit">Subscribe</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="section bg-muted" data-klar-ds-label="Contact">
+          <div class="container contact-grid">
+            <div class="stack">
+              <span class="badge">Contact</span>
+              <h2>Pitch a thoughtful story.</h2>
+              <p class="text-muted-foreground">Send ideas about design systems, editorial workflows, performance, or the craft of modern publishing.</p>
+              <div class="info-card">
+                <h3>Editorial desk</h3>
+                <p class="text-muted-foreground">hello@minimalblog.example<br />221B Paper Street, Suite 8<br />Portland, OR</p>
+              </div>
+            </div>
+            <form class="card form" action="#" method="post" novalidate>
+              <div class="card__body">
+                <div class="field">
+                  <label class="label" for="section-name">Name</label>
+                  <input class="input" id="section-name" name="name" type="text" required />
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+                <div class="field">
+                  <label class="label" for="section-message">Message</label>
+                  <textarea class="textarea" id="section-message" name="message" required></textarea>
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+                <button class="btn btn-primary" type="submit">Send message</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <footer class="site-footer" data-klar-ds-label="Footer">
+          <div class="container site-footer__inner">
+            <div class="stack">
+              <a class="brand" href="index.html">
+                <span class="brand__mark" aria-hidden="true">M</span>
+                <span>Minimal</span>
+              </a>
+              <p>A minimalist publication about design systems, writing, and thoughtful web craft.</p>
+            </div>
+            <div class="stack">
+              <h3 class="text-base">Explore</h3>
+              <a class="footer-link" href="index.html">Home</a>
+              <a class="footer-link" href="post.html">Featured Post</a>
+              <a class="footer-link" href="contact.html">Contact</a>
+            </div>
+            <div class="stack">
+              <h3 class="text-base">Topics</h3>
+              <a class="footer-link" href="post.html">Design Systems</a>
+              <a class="footer-link" href="post.html">Typography</a>
+              <a class="footer-link" href="post.html">Performance</a>
+            </div>
+            <div class="stack">
+              <h3 class="text-base">Connect</h3>
+              <a class="footer-link" href="contact.html">Pitch a story</a>
+              <a class="footer-link" href="contact.html">Newsletter</a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="stack">
+        <a class="brand" href="#top">
+          <span class="brand__mark" aria-hidden="true">M</span>
+          <span>Minimal Blog DS</span>
+        </a>
+        <p>This page is both a human style guide and Klar's machine-readable design system catalog.</p>
+      </div>
+      <div class="stack">
+        <h3 class="text-base">Foundations</h3>
+        <a class="footer-link" href="#colors">Colors</a>
+        <a class="footer-link" href="#typography">Typography</a>
+        <a class="footer-link" href="#spacing">Spacing</a>
+      </div>
+      <div class="stack">
+        <h3 class="text-base">Library</h3>
+        <a class="footer-link" href="#components">Components</a>
+        <a class="footer-link" href="#sections">Sections</a>
+      </div>
+      <div class="stack">
+        <h3 class="text-base">Theme</h3>
+        <button class="btn btn-outline" type="button" aria-label="Toggle theme">Toggle theme</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Foundation utility manifest for the Klar editor.
+       Every value references a class that exists in style.css. -->
+  <script type="application/json" data-klar-ds>
+    {
+      "classes": {
+        "Background color": [
+          { "label": "Page", "value": "bg-background" },
+          { "label": "Foreground", "value": "bg-foreground" },
+          { "label": "Brand", "value": "bg-primary" },
+          { "label": "Secondary", "value": "bg-secondary" },
+          { "label": "Muted", "value": "bg-muted" },
+          { "label": "Accent", "value": "bg-accent" },
+          { "label": "Card surface", "value": "bg-card" },
+          { "label": "Destructive", "value": "bg-destructive" },
+          { "label": "Transparent", "value": "bg-transparent" }
+        ],
+        "Text color": [
+          { "label": "Body", "value": "text-foreground" },
+          { "label": "On foreground", "value": "text-background" },
+          { "label": "Primary", "value": "text-primary" },
+          { "label": "On brand", "value": "text-primary-foreground" },
+          { "label": "On secondary", "value": "text-secondary-foreground" },
+          { "label": "Muted", "value": "text-muted-foreground" },
+          { "label": "On accent", "value": "text-accent-foreground" },
+          { "label": "Destructive", "value": "text-destructive" },
+          { "label": "White", "value": "text-white" },
+          { "label": "Black", "value": "text-black" }
+        ],
+        "Border": [
+          { "label": "All none", "value": "border-0" },
+          { "label": "All small", "value": "border" },
+          { "label": "All medium", "value": "border-2" },
+          { "label": "Top small", "value": "border-t" },
+          { "label": "Bottom small", "value": "border-b" }
+        ],
+        "Border color": [
+          { "label": "Default", "value": "border-border" },
+          { "label": "Muted", "value": "border-muted" },
+          { "label": "Foreground", "value": "border-foreground" },
+          { "label": "Primary", "value": "border-primary" },
+          { "label": "Transparent", "value": "border-transparent" }
+        ],
+        "Font size": [
+          { "label": "XS", "value": "text-xs" },
+          { "label": "Small", "value": "text-sm" },
+          { "label": "Base", "value": "text-base" },
+          { "label": "Large", "value": "text-lg" },
+          { "label": "XL", "value": "text-xl" },
+          { "label": "2XL", "value": "text-2xl" },
+          { "label": "3XL", "value": "text-3xl" },
+          { "label": "4XL", "value": "text-4xl" },
+          { "label": "5XL", "value": "text-5xl" },
+          { "label": "5XL", "value": "lg:text-5xl" }
+        ],
+        "Font weight": [
+          { "label": "Normal", "value": "font-normal" },
+          { "label": "Medium", "value": "font-medium" },
+          { "label": "Semibold", "value": "font-semibold" },
+          { "label": "Bold", "value": "font-bold" }
+        ],
+        "Line height": [
+          { "label": "Tight", "value": "leading-tight" },
+          { "label": "Snug", "value": "leading-snug" },
+          { "label": "Normal", "value": "leading-normal" },
+          { "label": "Relaxed", "value": "leading-relaxed" }
+        ],
+        "Letter spacing": [
+          { "label": "Tight", "value": "tracking-tight" },
+          { "label": "Normal", "value": "tracking-normal" },
+          { "label": "Wide", "value": "tracking-wide" }
+        ],
+        "Text": [
+          { "label": "Align left", "value": "text-left" },
+          { "label": "Align center", "value": "text-center" },
+          { "label": "Align right", "value": "text-right" },
+          { "label": "Uppercase", "value": "uppercase" },
+          { "label": "Italic", "value": "italic" },
+          { "label": "Underline", "value": "underline" },
+          { "label": "Sans font", "value": "font-sans" },
+          { "label": "Align left", "value": "md:text-left" }
+        ],
+        "Typography": [
+          { "label": "Display", "value": "text-5xl font-bold tracking-tight leading-tight" },
+          { "label": "Heading 1", "value": "text-4xl font-bold tracking-tight leading-tight" },
+          { "label": "Heading 2", "value": "text-3xl font-bold tracking-tight leading-snug" },
+          { "label": "Heading 3", "value": "text-2xl font-semibold leading-snug" },
+          { "label": "Heading 4", "value": "text-xl font-semibold leading-snug" },
+          { "label": "Lead", "value": "text-xl font-normal leading-relaxed" },
+          { "label": "Body", "value": "text-base font-normal leading-normal" },
+          { "label": "Small", "value": "text-sm font-normal leading-normal" },
+          { "label": "Meta", "value": "text-xs font-semibold uppercase tracking-wide" }
+        ],
+        "Display": [
+          { "label": "Block", "value": "block" },
+          { "label": "Inline block", "value": "inline-block" },
+          { "label": "Inline", "value": "inline" },
+          { "label": "Flex", "value": "flex" },
+          { "label": "Inline flex", "value": "inline-flex" },
+          { "label": "Grid", "value": "grid" },
+          { "label": "Hidden", "value": "hidden" },
+          { "label": "Block", "value": "md:block" },
+          { "label": "Flex", "value": "md:flex" },
+          { "label": "Hidden", "value": "md:hidden" },
+          { "label": "Block", "value": "lg:block" },
+          { "label": "Flex", "value": "lg:flex" },
+          { "label": "Hidden", "value": "lg:hidden" }
+        ],
+        "Flexbox": [
+          { "label": "Row", "value": "flex-row" },
+          { "label": "Column", "value": "flex-col" },
+          { "label": "Wrap", "value": "flex-wrap" },
+          { "label": "Flex 1", "value": "flex-1" },
+          { "label": "No shrink", "value": "flex-shrink-0" },
+          { "label": "Items start", "value": "items-start" },
+          { "label": "Items center", "value": "items-center" },
+          { "label": "Items end", "value": "items-end" },
+          { "label": "Justify start", "value": "justify-start" },
+          { "label": "Justify center", "value": "justify-center" },
+          { "label": "Justify between", "value": "justify-between" },
+          { "label": "Justify end", "value": "justify-end" },
+          { "label": "Row", "value": "md:flex-row" }
+        ],
+        "Grid columns": [
+          { "label": "1 column", "value": "grid-cols-1" },
+          { "label": "2 columns", "value": "grid-cols-2" },
+          { "label": "3 columns", "value": "grid-cols-3" },
+          { "label": "Span full", "value": "col-span-full" },
+          { "label": "2 columns", "value": "md:grid-cols-2" },
+          { "label": "3 columns", "value": "md:grid-cols-3" },
+          { "label": "3 columns", "value": "lg:grid-cols-3" }
+        ],
+        "Gap": [
+          { "label": "3XS", "value": "gap-1" },
+          { "label": "2XS", "value": "gap-2" },
+          { "label": "XS", "value": "gap-3" },
+          { "label": "Small", "value": "gap-4" },
+          { "label": "Medium", "value": "gap-6" },
+          { "label": "Large", "value": "gap-8" },
+          { "label": "XL", "value": "gap-12" }
+        ],
+        "Margin": [
+          { "label": "Center horizontal", "value": "mx-auto" },
+          { "label": "All none", "value": "m-0" },
+          { "label": "Top none", "value": "mt-0" },
+          { "label": "Top 2XS", "value": "mt-2" },
+          { "label": "Top small", "value": "mt-4" },
+          { "label": "Top medium", "value": "mt-6" },
+          { "label": "Top large", "value": "mt-8" },
+          { "label": "Top XL", "value": "mt-12" },
+          { "label": "Bottom none", "value": "mb-0" },
+          { "label": "Bottom 2XS", "value": "mb-2" },
+          { "label": "Bottom small", "value": "mb-4" },
+          { "label": "Bottom medium", "value": "mb-6" },
+          { "label": "Bottom large", "value": "mb-8" },
+          { "label": "Bottom XL", "value": "mb-12" },
+          { "label": "Vertical none", "value": "my-0" },
+          { "label": "Vertical small", "value": "my-4" },
+          { "label": "Vertical medium", "value": "my-8" },
+          { "label": "Vertical large", "value": "my-12" },
+          { "label": "Vertical XL", "value": "my-16" }
+        ],
+        "Padding": [
+          { "label": "All none", "value": "p-0" },
+          { "label": "All XS", "value": "p-3" },
+          { "label": "All small", "value": "p-4" },
+          { "label": "All medium", "value": "p-6" },
+          { "label": "All large", "value": "p-8" },
+          { "label": "All XL", "value": "p-12" },
+          { "label": "Horizontal none", "value": "px-0" },
+          { "label": "Horizontal XS", "value": "px-3" },
+          { "label": "Horizontal small", "value": "px-4" },
+          { "label": "Horizontal medium", "value": "px-6" },
+          { "label": "Horizontal large", "value": "px-8" },
+          { "label": "Vertical none", "value": "py-0" },
+          { "label": "Vertical small", "value": "py-4" },
+          { "label": "Vertical medium", "value": "py-8" },
+          { "label": "Vertical large", "value": "py-12" },
+          { "label": "Vertical XL", "value": "py-16" },
+          { "label": "Top none", "value": "pt-0" },
+          { "label": "Top small", "value": "pt-4" },
+          { "label": "Top large", "value": "pt-8" },
+          { "label": "Bottom none", "value": "pb-0" },
+          { "label": "Bottom small", "value": "pb-4" },
+          { "label": "Bottom large", "value": "pb-8" },
+          { "label": "Bottom XL", "value": "pb-12" },
+          { "label": "Vertical XL", "value": "lg:py-16" }
+        ],
+        "Sizing": [
+          { "label": "Width full", "value": "w-full" },
+          { "label": "Height full", "value": "h-full" },
+          { "label": "Min height screen", "value": "min-h-screen" },
+          { "label": "Max width 2xl", "value": "max-w-2xl" },
+          { "label": "Max width 3xl", "value": "max-w-3xl" },
+          { "label": "Max width 4xl", "value": "max-w-4xl" },
+          { "label": "Max width 6xl", "value": "max-w-6xl" }
+        ],
+        "Radius": [
+          { "label": "None", "value": "rounded-none" },
+          { "label": "Small", "value": "rounded-sm" },
+          { "label": "Medium", "value": "rounded-md" },
+          { "label": "Large", "value": "rounded-lg" },
+          { "label": "XL", "value": "rounded-xl" },
+          { "label": "Full", "value": "rounded-full" }
+        ],
+        "Shadows": [
+          { "label": "None", "value": "shadow-none" },
+          { "label": "Small", "value": "shadow-sm" },
+          { "label": "Medium", "value": "shadow-md" },
+          { "label": "Large", "value": "shadow-lg" }
+        ],
+        "Position": [
+          { "label": "Relative", "value": "relative" },
+          { "label": "Absolute", "value": "absolute" },
+          { "label": "Sticky", "value": "sticky" },
+          { "label": "Fixed", "value": "fixed" },
+          { "label": "Inset 0", "value": "inset-0" },
+          { "label": "Top 0", "value": "top-0" },
+          { "label": "Right 0", "value": "right-0" },
+          { "label": "Bottom 0", "value": "bottom-0" },
+          { "label": "Left 0", "value": "left-0" },
+          { "label": "Z 50", "value": "z-50" }
+        ],
+        "Object fit & aspect": [
+          { "label": "Object cover", "value": "object-cover" },
+          { "label": "Aspect square", "value": "aspect-square" },
+          { "label": "Aspect video", "value": "aspect-video" }
+        ],
+        "Effects": [
+          { "label": "Overflow hidden", "value": "overflow-hidden" },
+          { "label": "Transition", "value": "transition" },
+          { "label": "Cursor pointer", "value": "cursor-pointer" },
+          { "label": "Screen-reader only", "value": "sr-only" }
+        ],
+        "Rich text": [
+          { "label": "Prose", "value": "prose" }
+        ],
+        "Layout": [
+          { "label": "Section", "value": "section" },
+          { "label": "Stack", "value": "stack" },
+          { "label": "Cluster", "value": "cluster" }
+        ],
+        "Container": [
+          { "label": "Default", "value": "container" },
+          { "label": "Narrow", "value": "container-narrow" },
+          { "label": "Wide", "value": "container-wide" }
+        ],
+        "Grid": [
+          { "label": "1 column", "value": "grid grid-cols-1" },
+          { "label": "2 columns", "value": "grid grid-cols-2" },
+          { "label": "3 columns", "value": "grid grid-cols-3" }
+        ],
+        "Container and Grid": [
+          { "label": "Default · 1 col", "value": "container grid grid-cols-1" },
+          { "label": "Default · 2 cols", "value": "container grid grid-cols-2" },
+          { "label": "Default · 3 cols", "value": "container grid grid-cols-3" },
+          { "label": "Narrow · 1 col", "value": "container-narrow grid grid-cols-1" },
+          { "label": "Narrow · 2 cols", "value": "container-narrow grid grid-cols-2" },
+          { "label": "Narrow · 3 cols", "value": "container-narrow grid grid-cols-3" },
+          { "label": "Wide · 1 col", "value": "container-wide grid grid-cols-1" },
+          { "label": "Wide · 2 cols", "value": "container-wide grid grid-cols-2" },
+          { "label": "Wide · 3 cols", "value": "container-wide grid grid-cols-3" }
+        ]
+      }
+    }
+  </script>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var stored = localStorage.getItem("theme");
+      if (stored === "dark" || (!stored && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        root.classList.add("dark");
+      }
+
+      function syncButtons() {
+        document.querySelectorAll('[aria-label="Toggle theme"]').forEach(function (button) {
+          button.textContent = root.classList.contains("dark") ? "☀" : "☾";
+        });
+      }
+
+      document.querySelectorAll('[aria-label="Toggle theme"]').forEach(function (button) {
+        button.addEventListener("click", function () {
+          root.classList.toggle("dark");
+          localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+          syncButtons();
+        });
+      });
+
+      syncButtons();
+    })();
+  </script>
+</body>
+</html>
